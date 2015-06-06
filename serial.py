@@ -7,7 +7,10 @@
 #
 import os
 import termios
+import ustruct
+import fcntl
 
+FIONREAD = const(0x541b)
 
 class SerialException(OSError):
     pass
@@ -37,6 +40,11 @@ class Serial:
 
     def close(self):
         os.close(self.fd)
+
+    def inWaiting(self):
+        buf = ustruct.pack('I', 0)
+        fcntl.ioctl(self.fd, FIONREAD, buf, True)
+        return ustruct.unpack('I', buf)[0]
 
     def write(self, data):
         return os.write(self.fd, data)
