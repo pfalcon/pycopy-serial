@@ -35,6 +35,9 @@ class Serial:
         baudrate = self.BAUD_MAP[self.baudrate]
         termios.tcsetattr(self.fd, termios.TCSANOW, [iflag, oflag, cflag, lflag, baudrate, baudrate, cc])
 
+    def close(self):
+        os.close(self.fd)
+
     def write(self, data):
         return os.write(self.fd, data)
 
