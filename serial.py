@@ -19,12 +19,12 @@ class SerialDisconnectException(SerialException):
 
 class Serial:
 
-    SPEED_MAP = { 9600: termios.B9600, 115200: termios.B115200 }
+    BAUD_MAP = { 9600: termios.B9600, 115200: termios.B115200 }
 
-    def __init__(self, port, speed, timeout=None, **kwargs):
+    def __init__(self, port, baudrate, timeout=None, **kwargs):
         assert timeout is None, "Only no-timeout mode is supported"
         self.port = port
-        self.speed = speed
+        self.baudrate = baudrate
         self.open()
 
     def open(self):
@@ -32,8 +32,8 @@ class Serial:
         termios.setraw(self.fd)
         iflag, oflag, cflag, lflag, ispeed, ospeed, cc = termios.tcgetattr(self.fd)
         #print("tcgetattr result:", iflag, oflag, cflag, lflag, ispeed, ospeed, cc)
-        speed = self.SPEED_MAP[self.speed]
-        termios.tcsetattr(self.fd, termios.TCSANOW, [iflag, oflag, cflag, lflag, speed, speed, cc])
+        baudrate = self.BAUD_MAP[self.baudrate]
+        termios.tcsetattr(self.fd, termios.TCSANOW, [iflag, oflag, cflag, lflag, baudrate, baudrate, cc])
 
     def write(self, data):
         return os.write(self.fd, data)
