@@ -9,6 +9,7 @@ import os
 import termios
 import ustruct
 import fcntl
+import uselect
 
 FIONREAD = const(0x541b)
 
@@ -25,9 +26,9 @@ class Serial:
     BAUD_MAP = { 9600: termios.B9600, 115200: termios.B115200 }
 
     def __init__(self, port, baudrate, timeout=None, **kwargs):
-        assert timeout is None, "Only no-timeout mode is supported"
         self.port = port
         self.baudrate = baudrate
+        self.timeout = -1 if timeout is None else timeout * 1000
         self.open()
 
     def open(self):
@@ -37,6 +38,8 @@ class Serial:
         #print("tcgetattr result:", iflag, oflag, cflag, lflag, ispeed, ospeed, cc)
         baudrate = self.BAUD_MAP[self.baudrate]
         termios.tcsetattr(self.fd, termios.TCSANOW, [iflag, oflag, cflag, lflag, baudrate, baudrate, cc])
+        self.poller = uselect.poll()
+        self.poller.register(self.fd, uselect.POLLIN | uselect.POLLHUP)
 
     def close(self):
         os.close(self.fd)
@@ -53,6 +56,8 @@ class Serial:
         buf = b""
         c = 0
         while size > 0:
+            if not self.poller.poll(self.timeout):
+                break
             chunk = os.read(self.fd, size)
             l = len(chunk)
             if l == 0:
