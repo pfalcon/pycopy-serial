@@ -23,17 +23,12 @@ class SerialDisconnectException(SerialException):
 
 class Serial:
 
-    BAUD_MAP = {
-        9600: termios.B9600,
-        19200: 14,
-        57600: termios.B57600,
-        115200: termios.B115200
-    }
+    BAUD_MAP = { 9600: termios.B9600, 115200: termios.B115200 }
 
     def __init__(self, port, baudrate, timeout=None, **kwargs):
         self.port = port
         self.baudrate = baudrate
-        self.timeout = None if timeout is None else timeout * 1000
+        self.timeout = -1 if timeout is None else timeout * 1000
         self.open()
 
     def open(self):
