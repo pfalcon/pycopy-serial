@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='micropython-serial',
-      version='0.2',
+      version='0.3',
       description="pySerial-like module for MicroPython (unix port).",
       url='https://github.com/pfalcon/micropython-serial',
       author='Paul Sokolovsky',
