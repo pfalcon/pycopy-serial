@@ -1,12 +1,12 @@
 from setuptools import setup
 
 
-setup(name='micropython-serial',
-      version='0.3',
-      description="pySerial-like module for MicroPython (unix port).",
-      url='https://github.com/pfalcon/micropython-serial',
+setup(name='pycopy-serial',
+      version='0.4',
+      description="pySerial-like module for Pycopy unix port (https://github.com/pfalcon/pycopy).",
+      url='https://github.com/pfalcon/pycopy-serial',
       author='Paul Sokolovsky',
       author_email='pfalcon@users.sourceforge.net',
       license='MIT',
       py_modules=['serial'],
-      install_requires=['micropython-os', 'micropython-fcntl'])
+      install_requires=['pycopy-os', 'pycopy-fcntl'])
