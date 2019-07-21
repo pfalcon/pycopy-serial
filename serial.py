@@ -1,6 +1,7 @@
 #
-# micropython-serial - pySerial-like interface for MicroPython
-# https://github.com/pfalcon/micropython-serial
+# pycopy-serial - pySerial-like interface for Pycopy
+# https://github.com/pfalcon/pycopy-serial
+# https://github.com/pfalcon/pycopy
 #
 # Copyright (c) 2014 Paul Sokolovsky
 # Licensed under MIT license
