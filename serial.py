@@ -35,7 +35,7 @@ class Serial:
     def __init__(self, port, baudrate, timeout=None, **kwargs):
         self.port = port
         self.baudrate = baudrate
-        self.timeout = -1 if timeout is None else timeout * 1000
+        self.timeout = -1 if timeout is None else int(timeout * 1000)
         self.open()
 
     def open(self):
